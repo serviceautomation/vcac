@@ -1,0 +1,6 @@
+#set ( $keyPrefix = "source-source-" )
+#set( $mainHeading1 = "A Request Needs Your Approval !" )
+#set( $userInformation = "<font color=#3EC6E0><b>#valueOf('requestedBy')</b></font> has" )
+#set( $scenarioMessage = "Please scroll to the bottom to process this request. " )
+
+#parse( 'extensions/displayRequest.vm' )

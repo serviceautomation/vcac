@@ -1,0 +1,11 @@
+## msg -> Macro to retrieve locale sensitive messages from messages.properties.
+#macro( msg $key $args, $defaultValue )$messages.getMessage($key, $args.toArray(), $defaultValue, $locale)#end
+
+## Example usage:
+## - only message key: #msg("localization.message.key")
+## - with args: #msg("localization.message.key", ["arg1", "arg2"])
+## - with args and default value: #msg("localization.message.key", ["arg1", "arg2"], "default value")
+## - with default value without args: #msg("localization.message.key", [], "default value")
+
+## Note: the $args if created in Velocity is of type ArrayList. If passed from the context,
+## it should be of type List in order for this macro to work.

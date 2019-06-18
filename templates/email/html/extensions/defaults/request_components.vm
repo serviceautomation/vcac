@@ -1,0 +1,85 @@
+## Code to get number of instances requested.
+#set( $request_NumberOfInstances = "#valueOf('_number_of_instances')" )
+#if( "$!request_NumberOfInstances" == "" )
+   #set( $request_NumberOfInstances = "1" )
+#end
+
+## This displays request information as well as scenario information. It relies on 3 variables - mainHeading1, userInformation and scenarioMessage.
+<div class="main_heading">
+   <div class="main_heading1"> $mainHeading1 </div>
+   <div class="main_heading2">
+      <br/>$userInformation requested $request_NumberOfInstances instance(s) of <font color=#3EC6E0><b>#valueOf('catalogItem-Name')</b></font> on #valueOf('requestedDate'). The requested lease period is <font color=#3EC6E0><b>$request_leasePeriod</b></font>. $scenarioMessage
+   </div>
+</div>
+
+## Show Request Components using div and styles defined in styles.vm.
+<br/>
+<h2 class="components_heading">#msg("notification.email.extensions.component.componentInfo")</h2>
+<br/>
+##<div class="container">
+##<div class="components">
+#set( $component_size = "#valueOf('component-ComponentNos') " )
+#set( $Integer = 0 )
+#if( "$!component_size" != "" && "$!component_size.trim()" != "" )
+   #set( $componentSize = $Integer.parseInt($component_size.trim()) )
+   #if( $componentSize != 0 )
+
+      ## Loop to get and show data for each component. The way to get the data in variables for each component is same as it was in original template. The only difference is the presentation.
+      #foreach($index in [1..$componentSize] )                       
+      
+         ## Component general info                                     
+        #set( $curKey = "component${index}-Name" ) 
+        #set( $component_componentName = "#valueOf($curKey)" )
+      
+        #set( $curKey = "component${index}-Type" )
+        #set( $component_componentType = "#valueOf($curKey)" )
+      
+        #set( $curKey = "component${index}-Parent" )
+        #set( $component_parentComponent = "#valueOf($curKey)" )
+      
+        ## Software specified
+        #set( $curKey = "component${index}-Software-Install-Path" )
+        #set( $component_installPath = "#valueOf($curKey)" )
+      
+        #set( $curKey = "component${index}-Software-Group-License" )
+        #set( $component_groupLicense = "#valueOf($curKey)" )
+      
+        ## VM specified
+        #set( $curKey = "component${index}-cpu" )
+        #set( $component_cpu = "#valueOf($curKey)" )
+      
+        #set( $curKey = "component${index}-memory" )
+        #set( $component_memory = "#valueOf($curKey)" )
+      
+        #set( $curKey = "component${index}-storage" )
+        #set( $component_storage = "#valueOf($curKey)" )
+      
+        #set( $curKey = "component${index}-DestructionDate" )
+        #set( $component_destructionDate = "#valueOf($curKey)" )
+ 
+        ## Different way to present the data using divs and styles.
+         <center>
+         <table width=30%>
+            <tr bgcolor="#87CEEB">
+              <th><font size="5">$component_componentType</font></th>
+            </tr>
+            <tr bgcolor="#87CEEB">
+              <th><font size="5">$component_componentName</font></th>
+            </tr>
+            <tr bgcolor="#DCDCDC">
+              <th align="left">
+                <li>$component_cpu CPU(s)
+                <li>$component_memory MB Memory
+                <li>$component_storage GB Storage
+              </th>
+            </tr>
+        </table>
+        </center>
+<br/>
+        
+    #end ##For loop
+  #end ##end for if ($componentSize != 0)
+#end ## end for #if( "$!component_size" != "" )
+##</div> ## end of components div
+##</div> ## end of container div
+##</div> ## end of main div
