@@ -56,7 +56,7 @@
       
         #set( $curKey = "component${index}-DestructionDate" )
         #set( $component_destructionDate = "#valueOf($curKey)" )
- 
+        #if ( $component_componentType == "Virtual Machine" ) 
         ## Different way to present the data using divs and styles.
          <center>
          <table width=30%>
@@ -76,7 +76,7 @@
         </table>
         </center>
 <br/>
-        
+       #end ##If component type
     #end ##For loop
   #end ##end for if ($componentSize != 0)
 #end ## end for #if( "$!component_size" != "" )

@@ -76,7 +76,6 @@
          </tr>
          #end
 
-         #renderRow("notification.email.extensions.approval.justification", $approval_justification)
       </table>
       <br/>
 
