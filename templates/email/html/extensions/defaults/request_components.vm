@@ -11,11 +11,38 @@
       <br/>$userInformation requested $request_NumberOfInstances instance(s) of <font color=#3EC6E0><b>#valueOf('catalogItem-Name')</b></font> on #valueOf('requestedDate'). The requested lease period is <font color=#3EC6E0><b>$request_leasePeriod</b></font>. $scenarioMessage
    </div>
 </div>
+<br/>
+
+## Get custom field data from form
+#set( $offering = "#valueOf('catalogItem-Name')" )
+#if( $offering == "VDI Request" )
+    #set( $requestedFor = "#valueOf('forWho')" ) ##self/contractor
+    #set( $requestType = "#valueOf('requestType')" ) ##new/admin
+    #set( $adminRequired = "#valueOf('adminAccess')" ) ##true/false
+    #set( $justification = "#valueOf('Justification')" )
+
+    #if( $requestedFor == "contractor" )
+        #set( $ADName = "#valueOf('contUsername')" )
+        #set( $indexEnd = $ADName.indexOf('[ id='))
+        #set( $contractor = $ADName.substring(0,$indexEnd) )
+    #end
+
+         <center>
+         <table class="xaas">
+            <tr>
+              <td align="left">
+                #if( $requestedFor == "contractor" ) <li>Requested For: <b>$contractor</b> #end
+                <li>Type of Request: <b>$requestType</b>
+                #if( $requestType == "new" ) <li>Require Administrative Access: <b>$adminRequired</b> #end
+                <li>Justification: <b>$justification</b>
+              </td>
+            </tr>
+        </table>
+        </center>
+        <br/>
+#end
 
 ## Show Request Components using div and styles defined in styles.vm.
-<br/>
-<h2 class="components_heading">#msg("notification.email.extensions.component.componentInfo")</h2>
-<br/>
 ##<div class="container">
 ##<div class="components">
 #set( $component_size = "#valueOf('component-ComponentNos') " )
@@ -23,6 +50,9 @@
 #if( "$!component_size" != "" && "$!component_size.trim()" != "" )
    #set( $componentSize = $Integer.parseInt($component_size.trim()) )
    #if( $componentSize != 0 )
+
+      <h2 class="components_heading">#msg("notification.email.extensions.component.componentInfo")</h2>
+      <br/>
 
       ## Loop to get and show data for each component. The way to get the data in variables for each component is same as it was in original template. The only difference is the presentation.
       #foreach($index in [1..$componentSize] )                       
@@ -56,7 +86,8 @@
       
         #set( $curKey = "component${index}-DestructionDate" )
         #set( $component_destructionDate = "#valueOf($curKey)" )
-        #if ( $component_componentType == "Virtual Machine" ) 
+        
+        #if ( $component_componentType == "Virtual Machine") 
         ## Different way to present the data using divs and styles.
          <center>
          <table width=30%>
@@ -76,7 +107,7 @@
         </table>
         </center>
 <br/>
-       #end ##If component type
+       #end ##End if componenttype 
     #end ##For loop
   #end ##end for if ($componentSize != 0)
 #end ## end for #if( "$!component_size" != "" )
